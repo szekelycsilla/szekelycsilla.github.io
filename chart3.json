@@ -1,0 +1,22 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "CAC vs LTV by Channel",
+  "data": {
+    "values": [
+      {"channel": "Organic", "cac": 120, "ltv": 2400, "customers": 450},
+      {"channel": "Paid Search", "cac": 380, "ltv": 1800, "customers": 320},
+      {"channel": "Referral", "cac": 80, "ltv": 3200, "customers": 180},
+      {"channel": "Social Media", "cac": 250, "ltv": 1500, "customers": 280},
+      {"channel": "Email", "cac": 90, "ltv": 2100, "customers": 350},
+      {"channel": "Events", "cac": 500, "ltv": 2800, "customers": 120}
+    ]
+  },
+  "mark": {"type": "circle", "opacity": 0.7},
+  "encoding": {
+    "x": {"field": "cac", "type": "quantitative", "title": "Customer Acquisition Cost ($)"},
+    "y": {"field": "ltv", "type": "quantitative", "title": "Lifetime Value ($)"},
+    "size": {"field": "customers", "type": "quantitative", "title": "Customers"},
+    "color": {"field": "channel", "type": "nominal"},
+    "tooltip": [{"field": "channel"}, {"field": "cac", "format": "$,"}, {"field": "ltv", "format": "$,"}, {"field": "customers"}]
+  }
+}

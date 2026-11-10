@@ -1,0 +1,28 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Feature Adoption Rates by User Tier",
+  "data": {
+    "values": [
+      {"feature": "Analytics", "tier": "Free", "adoption": 23},
+      {"feature": "Analytics", "tier": "Pro", "adoption": 67},
+      {"feature": "Analytics", "tier": "Enterprise", "adoption": 89},
+      {"feature": "Integrations", "tier": "Free", "adoption": 12},
+      {"feature": "Integrations", "tier": "Pro", "adoption": 54},
+      {"feature": "Integrations", "tier": "Enterprise", "adoption": 78},
+      {"feature": "Automation", "tier": "Free", "adoption": 8},
+      {"feature": "Automation", "tier": "Pro", "adoption": 45},
+      {"feature": "Automation", "tier": "Enterprise", "adoption": 72},
+      {"feature": "API Access", "tier": "Free", "adoption": 3},
+      {"feature": "API Access", "tier": "Pro", "adoption": 31},
+      {"feature": "API Access", "tier": "Enterprise", "adoption": 65}
+    ]
+  },
+  "mark": "bar",
+  "encoding": {
+    "x": {"field": "feature", "type": "nominal", "title": "Feature"},
+    "y": {"field": "adoption", "type": "quantitative", "title": "Adoption Rate (%)"},
+    "color": {"field": "tier", "type": "nominal", "scale": {"scheme": "set2"}},
+    "xOffset": {"field": "tier", "type": "nominal"},
+    "tooltip": [{"field": "feature"}, {"field": "tier"}, {"field": "adoption", "format": ".0f%"}]
+  }
+}

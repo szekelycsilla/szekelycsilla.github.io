@@ -3,24 +3,292 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vega-Lite Visualization</title>
+  <title>The Data Story: From Startup to Scale</title>
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
   <style>
-    body { font-family: sans-serif; margin: 20px; }
-    #vis { width: 100%; max-width: 800px; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.7;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      color: #333;
+      background: #fafafa;
+    }
+    h1 { color: #1a1a2e; font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .subtitle { color: #666; font-size: 1.2rem; margin-bottom: 3rem; }
+    h2 { color: #2c3e50; font-size: 1.5rem; margin-top: 3rem; margin-bottom: 1rem; border-bottom: 2px solid #eee; padding-bottom: 0.5rem; }
+    p { margin-bottom: 1.2rem; text-align: justify; }
+    .viz-container {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 2rem 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .viz-container h3 { margin-top: 0; color: #2c3e50; font-size: 1.1rem; }
+    .filter-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .filter-bar label { font-weight: 600; color: #444; }
+    .filter-bar select {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background: white;
+      font-size: 0.9rem;
+    }
+    .filter-bar input {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+    .insight-box {
+      background: #e8f5e9;
+      border-left: 4px solid #4caf50;
+      padding: 16px;
+      margin: 1.5rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .insight-box strong { color: #2e7d32; }
+    footer { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #eee; color: #888; font-size: 0.9rem; text-align: center; }
+    #vis1, #vis2, #vis3, #vis4, #vis5 { width: 100%; height: 400px; }
   </style>
 </head>
 <body>
-  <h1>Vega-Lite Visualization</h1>
-  <div id="vis"></div>
+  <h1>The Data Story: From Startup to Scale</h1>
+  <p class="subtitle">How five key metrics reveal the journey of a SaaS company finding product-market fit</p>
+
+  <p>Every successful company has a story written in numbers. Not the vanity metrics that look good on pitch decks, but the hard, operational data that tells you whether you're building something people actually need. This is the story of a B2B SaaS company that went from zero to $3.8M ARR in two years—and the five charts that explain how they did it.</p>
+
+  <h2>Chapter 1: The Revenue Trajectory</h2>
+  <p>The first chart looks deceptively simple. Eight quarters. A steady climb from $1.2M to $3.8M ARR. But zoom in on the inflection points, and you see the real narrative. Q3 2023—that's when they hired their first dedicated sales rep. Q1 2024—that's when the enterprise tier launched. The slope doesn't just continue; it steepens. Each strategic decision compounds.</p>
+
+  <div class="viz-container">
+    <h3>Quarterly Revenue Growth (ARR)</h3>
+    <div class="filter-bar">
+      <label>View:</label>
+      <select id="filter1">
+        <option value="all">All Quarters</option>
+        <option value="2023">2023 Only</option>
+        <option value="2024">2024 Only</option>
+      </select>
+      <label>Highlight:</label>
+      <select id="highlight1">
+        <option value="none">None</option>
+        <option value="sales-hire">Sales Hire (Q3'23)</option>
+        <option value="enterprise">Enterprise Launch (Q1'24)</option>
+      </select>
+    </div>
+    <div id="vis1"></div>
+  </div>
+
+  <div class="insight-box">
+    <strong>Key Insight:</strong> The 22% quarter-over-quarter growth in Q1 2024 wasn't seasonal—it was structural. Enterprise deals have 3x the contract value but 40% longer sales cycles. The inflection point proves the product finally solved a problem worth six figures.
+  </div>
+
+  <h2>Chapter 2: Who's Actually Buying</h2>
+  <p>Revenue growth is meaningless without knowing <em>who</em> is driving it. The market share breakdown reveals a surprising truth: the company didn't win by dominating one segment. They won by being the only vendor that served all four segments competently. Enterprise brings 35% of revenue but only 12% of customers. Startups are 15% of revenue but 45% of the pipeline. The middle—SMB and Mid-Market—is where the sustainable growth lives.</p>
+
+  <div class="viz-container">
+    <h3>Market Share by Customer Segment</h3>
+    <div class="filter-bar">
+      <label>Filter by revenue contribution:</label>
+      <select id="filter2">
+        <option value="all">All Segments</option>
+        <option value="high">Top 2 (Enterprise + SMB)</option>
+        <option value="growth">Growth Segments (Mid-Market + Startup)</option>
+      </select>
+      <input type="range" id="threshold2" min="0" max="40" value="0" style="flex: 1; max-width: 200px;">
+      <span id="thresholdLabel2">Min %: 0</span>
+    </div>
+    <div id="vis2"></div>
+  </div>
+
+  <div class="insight-box">
+    <strong>Key Insight:</strong> The "barbell strategy" works. Enterprise provides stability and reference customers. Startups provide volume and product feedback. But the Mid-Market segment—growing at 40% YoY—is where the company's unit economics are healthiest: CAC payback under 6 months, net revenue retention over 120%.
+  </div>
+
+  <h2>Chapter 3: The Economics of Acquisition</h2>
+  <p>This scatter plot is where most founders get uncomfortable. Each bubble is a marketing channel. The x-axis is what you pay to acquire a customer. The y-axis is what that customer is worth over their lifetime. The size of the bubble? How many customers that channel brought in. The diagonal line where CAC equals LTV? That's the death line. Everything below it loses money.</p>
+
+  <div class="viz-container">
+    <h3>Customer Acquisition Cost vs Lifetime Value by Channel</h3>
+    <div class="filter-bar">
+      <label>Show channels with:</label>
+      <select id="filter3">
+        <option value="all">All Channels</option>
+        <option value="profitable">LTV:CAC > 3:1</option>
+        <option value="efficient">CAC < $200</option>
+        <option value="scale">Customers > 300</option>
+      </select>
+      <label>Min LTV:CAC Ratio:</label>
+      <input type="number" id="ratio3" min="1" max="10" value="1" step="0.5" style="width: 80px;">
+    </div>
+    <div id="vis3"></div>
+  </div>
+
+  <div class="insight-box">
+    <strong>Key Insight:</strong> Referral and Organic are the only channels with LTV:CAC ratios above 5:1. But they don't scale—you can't "buy" more referrals. The real opportunity is Paid Search: at 4.7:1 with 320 customers, it's the only channel that combines healthy unit economics with scalable volume. The company doubled their Paid Search budget in Q2 2024 and saw CAC drop 15% through creative optimization.
+  </div>
+
+  <h2>Chapter 4: The Engagement Flywheel</h2>
+  <p>Monthly Active Users tell you if people stay. New users tell you if marketing works. Churned users tell you if the product delivers. This area chart shows all three. Notice how the gap between "new" and "churned" widens over the year? That's negative churn in action—existing customers expanding faster than others leave. By December, net new users (4,800) nearly double churn (2,000).</p>
+
+  <div class="viz-container">
+    <h3>Monthly Active Users Trend</h3>
+    <div class="filter-bar">
+      <label>Display:</label>
+      <select id="filter4">
+        <option value="mau">MAU Only</option>
+        <option value="all">All Metrics</option>
+        <option value="net">Net Growth (New - Churned)</option>
+      </select>
+      <label>Time range:</label>
+      <select id="range4">
+        <option value="all">Full Year</option>
+        <option value="h1">H1 (Jan-Jun)</option>
+        <option value="h2">H2 (Jul-Dec)</option>
+      </select>
+    </div>
+    <div id="vis4"></div>
+  </div>
+
+  <div class="insight-box">
+    <strong>Key Insight:</strong> The inflection in July coincides with the launch of the "Automation" feature (see Chart 5). MAU growth accelerated from 8% to 12% monthly. But more importantly, churn rate dropped from 6.2% to 4.8%. Features that automate workflows don't just drive adoption—they create switching costs.
+  </div>
+
+  <h2>Chapter 5: The Feature Adoption Map</h2>
+  <p>The final chart connects product to revenue. Four features. Three tiers. The adoption rates tell you exactly what each tier values. Free users want Analytics (23%) but barely touch Integrations (12%) or Automation (8%). Pro users adopt Integrations at 54%—that's the "aha moment" where the product becomes part of their stack. Enterprise? They adopt everything. API Access at 65% tells you they're building on top of your platform.</p>
+
+  <div class="viz-container">
+    <h3>Feature Adoption Rates by User Tier</h3>
+    <div class="filter-bar">
+      <label>Tier:</label>
+      <select id="filter5">
+        <option value="all">All Tiers</option>
+        <option value="Free">Free</option>
+        <option value="Pro">Pro</option>
+        <option value="Enterprise">Enterprise</option>
+      </select>
+      <label>Min adoption %:</label>
+      <input type="range" id="minAdoption5" min="0" max="90" value="0" style="flex: 1; max-width: 200px;">
+      <span id="minLabel5">0%</span>
+    </div>
+    <div id="vis5"></div>
+  </div>
+
+  <div class="insight-box">
+    <strong>Key Insight:</strong> The Pro-to-Enterprise upgrade path is feature-gated. When Pro users hit 60% adoption on Integrations, their upgrade probability jumps 3.2x. The product team now uses "Integration adoption > 50%" as a leading indicator for expansion revenue. It's not a guess anymore—it's a trigger.
+  </div>
+
+  <h2>The Story the Data Tells</h2>
+  <p>Five charts. One narrative. A company that found product-market fit not by chasing one metric, but by understanding how the metrics <em>relate</em>. Revenue growth (Chart 1) is powered by a diversified customer base (Chart 2), acquired through channels with healthy economics (Chart 3), retained by a product that creates habit (Chart 4), and expanded through features that deepen integration (Chart 5).</p>
+
+  <p>The magic isn't in any single visualization. It's in the connections: the enterprise launch that steepened the revenue curve. The referral channel that seeded the startup segment. The automation feature that reduced churn and drove expansion. Each chart is a piece of evidence. Together, they're a strategy.</p>
+
+  <p>This is what data-driven actually means. Not "we look at dashboards." But "we let the data write the story, and we have the discipline to follow where it leads."</p>
+
+  <footer>
+    Data as of Q4 2024. Visualizations built with Vega-Lite. Interactive filters apply client-side only.
+  </footer>
 
   <script>
-    fetch('chart.json')
-      .then(response => response.json())
-      .then(spec => vegaEmbed('#vis', spec))
-      .catch(console.error);
+    // Load all 5 charts
+    const charts = [
+      { spec: 'chart1.json', el: '#vis1', filter: '#filter1', highlight: '#highlight1' },
+      { spec: 'chart2.json', el: '#vis2', filter: '#filter2', threshold: '#threshold2', label: '#thresholdLabel2' },
+      { spec: 'chart3.json', el: '#vis3', filter: '#filter3', ratio: '#ratio3' },
+      { spec: 'chart4.json', el: '#vis4', filter: '#filter4', range: '#range4' },
+      { spec: 'chart5.json', el: '#vis5', filter: '#filter5', min: '#minAdoption5', minLabel: '#minLabel5' }
+    ];
+
+    let chartViews = {};
+
+    async function loadChart(config) {
+      try {
+        const response = await fetch(config.spec);
+        const spec = await response.json();
+        const result = await vegaEmbed(config.el, spec, { actions: false });
+        chartViews[config.el] = result.view;
+        setupFilters(config);
+      } catch (err) {
+        console.error(`Failed to load ${config.spec}:`, err);
+      }
+    }
+
+    function setupFilters(config) {
+      const view = chartViews[config.el];
+      if (!view) return;
+
+      // Filter 1: Revenue - time period filter
+      if (config.filter === '#filter1') {
+        document.querySelector(config.filter).addEventListener('change', (e) => {
+          const val = e.target.value;
+          let filterExpr = 'true';
+          if (val === '2023') filterExpr = "datum.quarter.indexOf('2023') !== -1";
+          else if (val === '2024') filterExpr = "datum.quarter.indexOf('2024') !== -1";
+          view.signal('filterPeriod', filterExpr).run();
+        });
+      }
+
+      // Filter 2: Market share - threshold filter
+      if (config.filter === '#filter2') {
+        const threshold = document.querySelector(config.threshold);
+        const label = document.querySelector(config.label);
+        threshold.addEventListener('input', (e) => {
+          label.textContent = `Min %: ${e.target.value}`;
+          view.signal('minShare', +e.target.value).run();
+        });
+        document.querySelector(config.filter).addEventListener('change', (e) => {
+          view.signal('segmentFilter', e.target.value).run();
+        });
+      }
+
+      // Filter 3: CAC vs LTV - ratio filter
+      if (config.filter === '#filter3') {
+        const ratioInput = document.querySelector(config.ratio);
+        document.querySelector(config.filter).addEventListener('change', (e) => {
+          view.signal('channelFilter', e.target.value).run();
+        });
+        ratioInput.addEventListener('input', () => {
+          view.signal('minRatio', +ratioInput.value).run();
+        });
+      }
+
+      // Filter 4: MAU - display mode
+      if (config.filter === '#filter4') {
+        document.querySelector(config.filter).addEventListener('change', (e) => {
+          view.signal('displayMode', e.target.value).run();
+        });
+        document.querySelector(config.range).addEventListener('change', (e) => {
+          view.signal('timeRange', e.target.value).run();
+        });
+      }
+
+      // Filter 5: Feature adoption - tier and min adoption
+      if (config.filter === '#filter5') {
+        document.querySelector(config.filter).addEventListener('change', (e) => {
+          view.signal('tierFilter', e.target.value).run();
+        });
+        const minInput = document.querySelector(config.min);
+        const minLabel = document.querySelector(config.minLabel);
+        minInput.addEventListener('input', (e) => {
+          minLabel.textContent = `${e.target.value}%`;
+          view.signal('minAdoption', +e.target.value).run();
+        });
+      }
+    }
+
+    // Load all charts
+    charts.forEach(loadChart);
   </script>
 </body>
 </html>
