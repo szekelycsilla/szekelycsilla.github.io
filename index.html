@@ -29,27 +29,6 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
     .viz-container h3 { margin-top: 0; color: #2c3e50; font-size: 1.1rem; }
-    .filter-bar {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    .filter-bar label { font-weight: 600; color: #444; }
-    .filter-bar select {
-      padding: 8px 12px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      background: white;
-      font-size: 0.9rem;
-    }
-    .filter-bar input {
-      padding: 8px 12px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 0.9rem;
-    }
     .insight-box {
       background: #e8f5e9;
       border-left: 4px solid #4caf50;
@@ -59,7 +38,7 @@
     }
     .insight-box strong { color: #2e7d32; }
     footer { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #eee; color: #888; font-size: 0.9rem; text-align: center; }
-    #vis1, #vis2, #vis3, #vis4, #vis5 { width: 100%; height: 400px; }
+    .vis { width: 100%; height: 400px; }
   </style>
 </head>
 <body>
@@ -73,21 +52,7 @@
 
   <div class="viz-container">
     <h3>Quarterly Revenue Growth (ARR)</h3>
-    <div class="filter-bar">
-      <label>View:</label>
-      <select id="filter1">
-        <option value="all">All Quarters</option>
-        <option value="2023">2023 Only</option>
-        <option value="2024">2024 Only</option>
-      </select>
-      <label>Highlight:</label>
-      <select id="highlight1">
-        <option value="none">None</option>
-        <option value="sales-hire">Sales Hire (Q3'23)</option>
-        <option value="enterprise">Enterprise Launch (Q1'24)</option>
-      </select>
-    </div>
-    <div id="vis1"></div>
+    <div id="vis1" class="vis"></div>
   </div>
 
   <div class="insight-box">
@@ -99,17 +64,7 @@
 
   <div class="viz-container">
     <h3>Market Share by Customer Segment</h3>
-    <div class="filter-bar">
-      <label>Filter by revenue contribution:</label>
-      <select id="filter2">
-        <option value="all">All Segments</option>
-        <option value="high">Top 2 (Enterprise + SMB)</option>
-        <option value="growth">Growth Segments (Mid-Market + Startup)</option>
-      </select>
-      <input type="range" id="threshold2" min="0" max="40" value="0" style="flex: 1; max-width: 200px;">
-      <span id="thresholdLabel2">Min %: 0</span>
-    </div>
-    <div id="vis2"></div>
+    <div id="vis2" class="vis"></div>
   </div>
 
   <div class="insight-box">
@@ -121,18 +76,7 @@
 
   <div class="viz-container">
     <h3>Customer Acquisition Cost vs Lifetime Value by Channel</h3>
-    <div class="filter-bar">
-      <label>Show channels with:</label>
-      <select id="filter3">
-        <option value="all">All Channels</option>
-        <option value="profitable">LTV:CAC > 3:1</option>
-        <option value="efficient">CAC < $200</option>
-        <option value="scale">Customers > 300</option>
-      </select>
-      <label>Min LTV:CAC Ratio:</label>
-      <input type="number" id="ratio3" min="1" max="10" value="1" step="0.5" style="width: 80px;">
-    </div>
-    <div id="vis3"></div>
+    <div id="vis3" class="vis"></div>
   </div>
 
   <div class="insight-box">
@@ -144,21 +88,7 @@
 
   <div class="viz-container">
     <h3>Monthly Active Users Trend</h3>
-    <div class="filter-bar">
-      <label>Display:</label>
-      <select id="filter4">
-        <option value="mau">MAU Only</option>
-        <option value="all">All Metrics</option>
-        <option value="net">Net Growth (New - Churned)</option>
-      </select>
-      <label>Time range:</label>
-      <select id="range4">
-        <option value="all">Full Year</option>
-        <option value="h1">H1 (Jan-Jun)</option>
-        <option value="h2">H2 (Jul-Dec)</option>
-      </select>
-    </div>
-    <div id="vis4"></div>
+    <div id="vis4" class="vis"></div>
   </div>
 
   <div class="insight-box">
@@ -170,19 +100,7 @@
 
   <div class="viz-container">
     <h3>Feature Adoption Rates by User Tier</h3>
-    <div class="filter-bar">
-      <label>Tier:</label>
-      <select id="filter5">
-        <option value="all">All Tiers</option>
-        <option value="Free">Free</option>
-        <option value="Pro">Pro</option>
-        <option value="Enterprise">Enterprise</option>
-      </select>
-      <label>Min adoption %:</label>
-      <input type="range" id="minAdoption5" min="0" max="90" value="0" style="flex: 1; max-width: 200px;">
-      <span id="minLabel5">0%</span>
-    </div>
-    <div id="vis5"></div>
+    <div id="vis5" class="vis"></div>
   </div>
 
   <div class="insight-box">
@@ -197,98 +115,24 @@
   <p>This is what data-driven actually means. Not "we look at dashboards." But "we let the data write the story, and we have the discipline to follow where it leads."</p>
 
   <footer>
-    Data as of Q4 2024. Visualizations built with Vega-Lite. Interactive filters apply client-side only.
+    Data as of Q4 2024. Visualizations built with Vega-Lite.
   </footer>
 
   <script>
-    // Load all 5 charts
     const charts = [
-      { spec: 'chart1.json', el: '#vis1', filter: '#filter1', highlight: '#highlight1' },
-      { spec: 'chart2.json', el: '#vis2', filter: '#filter2', threshold: '#threshold2', label: '#thresholdLabel2' },
-      { spec: 'chart3.json', el: '#vis3', filter: '#filter3', ratio: '#ratio3' },
-      { spec: 'chart4.json', el: '#vis4', filter: '#filter4', range: '#range4' },
-      { spec: 'chart5.json', el: '#vis5', filter: '#filter5', min: '#minAdoption5', minLabel: '#minLabel5' }
+      { spec: 'chart1.json', el: '#vis1' },
+      { spec: 'chart2.json', el: '#vis2' },
+      { spec: 'chart3.json', el: '#vis3' },
+      { spec: 'chart4.json', el: '#vis4' },
+      { spec: 'chart5.json', el: '#vis5' }
     ];
 
-    let chartViews = {};
-
-    async function loadChart(config) {
-      try {
-        const response = await fetch(config.spec);
-        const spec = await response.json();
-        const result = await vegaEmbed(config.el, spec, { actions: false });
-        chartViews[config.el] = result.view;
-        setupFilters(config);
-      } catch (err) {
-        console.error(`Failed to load ${config.spec}:`, err);
-      }
-    }
-
-    function setupFilters(config) {
-      const view = chartViews[config.el];
-      if (!view) return;
-
-      // Filter 1: Revenue - time period filter
-      if (config.filter === '#filter1') {
-        document.querySelector(config.filter).addEventListener('change', (e) => {
-          const val = e.target.value;
-          let filterExpr = 'true';
-          if (val === '2023') filterExpr = "datum.quarter.indexOf('2023') !== -1";
-          else if (val === '2024') filterExpr = "datum.quarter.indexOf('2024') !== -1";
-          view.signal('filterPeriod', filterExpr).run();
-        });
-      }
-
-      // Filter 2: Market share - threshold filter
-      if (config.filter === '#filter2') {
-        const threshold = document.querySelector(config.threshold);
-        const label = document.querySelector(config.label);
-        threshold.addEventListener('input', (e) => {
-          label.textContent = `Min %: ${e.target.value}`;
-          view.signal('minShare', +e.target.value).run();
-        });
-        document.querySelector(config.filter).addEventListener('change', (e) => {
-          view.signal('segmentFilter', e.target.value).run();
-        });
-      }
-
-      // Filter 3: CAC vs LTV - ratio filter
-      if (config.filter === '#filter3') {
-        const ratioInput = document.querySelector(config.ratio);
-        document.querySelector(config.filter).addEventListener('change', (e) => {
-          view.signal('channelFilter', e.target.value).run();
-        });
-        ratioInput.addEventListener('input', () => {
-          view.signal('minRatio', +ratioInput.value).run();
-        });
-      }
-
-      // Filter 4: MAU - display mode
-      if (config.filter === '#filter4') {
-        document.querySelector(config.filter).addEventListener('change', (e) => {
-          view.signal('displayMode', e.target.value).run();
-        });
-        document.querySelector(config.range).addEventListener('change', (e) => {
-          view.signal('timeRange', e.target.value).run();
-        });
-      }
-
-      // Filter 5: Feature adoption - tier and min adoption
-      if (config.filter === '#filter5') {
-        document.querySelector(config.filter).addEventListener('change', (e) => {
-          view.signal('tierFilter', e.target.value).run();
-        });
-        const minInput = document.querySelector(config.min);
-        const minLabel = document.querySelector(config.minLabel);
-        minInput.addEventListener('input', (e) => {
-          minLabel.textContent = `${e.target.value}%`;
-          view.signal('minAdoption', +e.target.value).run();
-        });
-      }
-    }
-
-    // Load all charts
-    charts.forEach(loadChart);
+    charts.forEach(({ spec, el }) => {
+      fetch(spec)
+        .then(r => r.json())
+        .then(s => vegaEmbed(el, s, { actions: false }))
+        .catch(console.error);
+    });
   </script>
 </body>
 </html>
